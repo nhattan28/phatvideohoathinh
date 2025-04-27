@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chọn Livestream YouTube</title>
+  <style>
+    :root {
+      --bg-dark: linear-gradient(135deg, #141e30, #243b55);
+      --bg-light: linear-gradient(135deg, #dce35b, #45b649);
+      --text-dark: white;
+      --text-light: black;
+      --button-dark: #00c6ff;
+      --button-light: #2c3e50;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      min-height: 100vh;
+      transition: all 0.5s ease;
+    }
+    .header-wrapper {
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+      height: 40px;
+      margin: 10px 0;
+      position: relative;
+    }
+    .header {
+      display: inline-block;
+      position: absolute;
+      animation: marquee 15s linear infinite;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px #000;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    button {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid var(--button-dark);
+      padding: 8px 16px;
+      border-radius: 20px;
+      color: var(--button-dark);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: var(--button-dark);
+      color: white;
+      font-weight: bold;
+    }
+    button.active {
+      background: rgba(255, 0, 0, 0.1);
+      color: red;
+      font-weight: bold;
+      border-color: red;
+    }
+       .video-container {
+      position: relative;
+      z-index: 5;
+      width: 85%;
+      max-width: 960px;
+      margin: 5px auto;
+      background: black;
+      overflow: hidden;
+      border-radius: 12px;
+      aspect-ratio: 16/9;
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    @media (max-width: 768px) {
+      .video-container {
+        width: 95%;
+      }
+    }
+    .snow-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .snowflake {
+      position: absolute;
+      font-size: 1.2em;
+      user-select: none;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    .clock {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--text-dark);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+
+<div class="snow-container" id="snow"></div>
+
+<div class="header-wrapper">
+  <div class="header">
+    🎥 Chọn Kênh Livestream | <span id="clock">--:--:-- | --/--/----</span>
+  </div>
+</div>
+
+<div class="buttons">
+  <button onclick="playVideo('QBvmeQr7Pbo', this)">POPS Anime</button>
+  <button onclick="playVideo('A-NeKwHTdoo', this)">Doraemon</button>
+  <button onclick="playVideo('JZRc7-Bvsfg', this)">Camera</button>
+</div>
+
+<div class="video-container">
+  <iframe 
+    id="videoPlayer"
+    src="https://www.youtube.com/embed/QBvmeQr7Pbo?autoplay=1&mute=0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<div class="clock" id="fixedClock"></div>
+
+<script>
+// Đổi video
+function playVideo(videoId, btn) {
+  const iframe = document.getElementById('videoPlayer');
+  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
+  document.querySelectorAll('.buttons button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+document.querySelector('.buttons button').classList.add('active');
+
+// Hoa rơi
+function createSnowflake() {
+  const snowContainer = document.getElementById('snow');
+  const snowflake = document.createElement('div');
+  snowflake.classList.add('snowflake');
+  snowflake.textContent = ['❄️','🌸','🍂','💮','🌼','🍁','🌺','🌹'][Math.floor(Math.random() * 8)];
+  snowflake.style.left = Math.random() * window.innerWidth + 'px';
+  snowflake.style.animationDuration = (5 + Math.random() * 5) + 's';
+  snowflake.style.fontSize = (10 + Math.random() * 20) + 'px';
+  snowflake.style.color = `hsl(${Math.random() * 360}, 100%, 80%)`;
+  snowContainer.appendChild(snowflake);
+  setTimeout(() => snowflake.remove(), 10000);
+}
+setInterval(createSnowflake, 300);
+
+// Đồng hồ hiện giờ + Theme tự động
+function updateClock() {
+  const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
+  const h = now.getHours().toString().padStart(2, '0');
+  const m = now.getMinutes().toString().padStart(2, '0');
+  const s = now.getSeconds().toString().padStart(2, '0');
+  const days = ['Chủ nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+  const d = days[now.getDay()];
+  const date = now.getDate().toString().padStart(2, '0');
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const year = now.getFullYear();
+  
+  const fullTime = `${h}:${m}:${s} | ${d}, ${date}/${month}/${year}`;
+  document.getElementById('clock').textContent = fullTime;
+  document.getElementById('fixedClock').textContent = fullTime;
+
+  // Theme
+  if (h >= 0 || h <= 21) {
+    document.body.style.background = getComputedStyle(document.documentElement).getPropertyValue('--bg-dark');
+    document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text-dark');
+    document.querySelectorAll('button').forEach(btn => {
+      btn.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--button-dark');
+      btn.style.color = getComputedStyle(document.documentElement).getPropertyValue('--button-dark');
+    });
+  } else {
+    document.body.style.background = getComputedStyle(document.documentElement).getPropertyValue('--bg-light');
+    document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text-light');
+    document.querySelectorAll('button').forEach(btn => {
+      btn.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--button-light');
+      btn.style.color = getComputedStyle(document.documentElement).getPropertyValue('--button-light');
+    });
+  }
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>
