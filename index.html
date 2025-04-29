@@ -136,7 +136,7 @@
 
 <div class="header-wrapper">
   <div class="header">
-    🎥 Chọn Kênh hoạt hình
+    🎥 Chọn Kênh Livestream | <span id="clock">--:--:-- | --/--/----</span>
   </div>
 </div>
 
@@ -164,14 +164,11 @@
 // Đổi video
 function playVideo(videoId, btn) {
   const iframe = document.getElementById('videoPlayer');
-  iframe.src = https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0;
+  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
   document.querySelectorAll('.buttons button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
-document.addEventListener("DOMContentLoaded", () => {
-  const defaultBtn = document.querySelector('.buttons button');
-  playVideo('A-NeKwHTdoo', defaultBtn); // ID video bóng đá hôm nay
-});
+document.querySelector('.buttons button').classList.add('active');
 
 // Hoa rơi
 function createSnowflake() {
