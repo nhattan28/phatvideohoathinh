@@ -136,13 +136,13 @@
 
 <div class="header-wrapper">
   <div class="header">
-    🎥 Chọn Kênh Livestream | <span id="clock">--:--:-- | --/--/----</span>
+    🎥 Chúc bạn có phút giây thư giãn 🎥
   </div>
 </div>
 
 <div class="buttons">
-  <button onclick="playVideo('QBvmeQr7Pbo', this)">Conan</button>
   <button onclick="playVideo('A-NeKwHTdoo', this)">Doraemon</button>
+  <button onclick="playVideo('QBvmeQr7Pbo', this)">Conan</button>
   <button onclick="playVideo('rEKifG2XUZg', this)">Tom and Jerry</button>
   <button onclick="playVideo('4fs42tPscuo', this)">Oggy</button>  
   <button onclick="playVideo('Ll56PmVqVRQ', this)">Hoạt hình</button>
@@ -152,7 +152,7 @@
 <div class="video-container">
   <iframe 
     id="videoPlayer"
-    src="https://www.youtube.com/embed/QBvmeQr7Pbo?autoplay=1&mute=0"
+    src="https://www.youtube.com/embed/A-NeKwHTdoo?autoplay=1&mute=0"
     allow="autoplay; encrypted-media"
     allowfullscreen>
   </iframe>
@@ -198,7 +198,6 @@ function updateClock() {
   const year = now.getFullYear();
   
   const fullTime = `${h}:${m}:${s} | ${d}, ${date}/${month}/${year}`;
-  document.getElementById('clock').textContent = fullTime;
   document.getElementById('fixedClock').textContent = fullTime;
 
   // Theme
