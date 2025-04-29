@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chọn Livestream Hoạt hình</title>
+  <title>Hoạt hình</title>
   <style>
     :root {
       --bg-dark: linear-gradient(135deg, #141e30, #243b55);
@@ -136,7 +136,7 @@
 
 <div class="header-wrapper">
   <div class="header">
-    🎥 Chọn Kênh Livestream | <span id="clock">--:--:-- | --/--/----</span>
+    🎥 Chọn Kênh hoạt hình
   </div>
 </div>
 
@@ -164,14 +164,13 @@
 // Đổi video
 function playVideo(videoId, btn) {
   const iframe = document.getElementById('videoPlayer');
-  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
+  iframe.src = https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0;
   document.querySelectorAll('.buttons button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
 document.addEventListener("DOMContentLoaded", () => {
   const defaultBtn = document.querySelector('.buttons button');
-  const defaultVideoId = defaultBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
-  playVideo(defaultVideoId, defaultBtn);
+  playVideo('A-NeKwHTdoo', defaultBtn); // ID video bóng đá hôm nay
 });
 
 // Hoa rơi
