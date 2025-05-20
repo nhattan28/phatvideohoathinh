@@ -74,12 +74,12 @@
       font-weight: bold;
       border-color: red;
     }
-       .video-container {
+    .video-container {
       position: relative;
       z-index: 5;
       width: 85%;
       max-width: 960px;
-      margin: 5px auto;
+      margin: 20px auto;
       background: black;
       overflow: hidden;
       border-radius: 12px;
@@ -137,37 +137,56 @@
 <div class="header-wrapper">
   <div class="header">
 Chúc bạn xem hoạt hình vui vẻ, để thỏa sức chìm đắm trong thế giới màu sắc và phiêu lưu! Cứ như trẻ con thôi, đừng quên bỏ qua những bài học trong từng tập phim nha!🎬✨
-</div>
-</div>
-
-<div class="buttons">
-  <button onclick="playVideo('WMyKrPGhwJE', this)">Doraemon</button>
-  <button onclick="playVideo('QBvmeQr7Pbo', this)">Conan</button>
-  <button onclick="playVideo('rEKifG2XUZg', this)">Tom and Jerry</button>
-  <button onclick="playVideo('4fs42tPscuo', this)">Oggy</button>  
-  <button onclick="playVideo('VF3qr2pQ0jk', this)">Shin Cậu Bé Bút Chì</button>
+  </div>
 </div>
 
-<div class="video-container">
-  <iframe 
-    id="videoPlayer"
-    src="https://www.youtube.com/embed/A-NeKwHTdoo?autoplay=1&mute=0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen>
-  </iframe>
+<!-- TRANG 1: Các nút chọn phim -->
+<div id="page1">
+  <div class="buttons">
+    <button onclick="goToPage2('WMyKrPGhwJE', this)">Doraemon</button>
+    <button onclick="goToPage2('QBvmeQr7Pbo', this)">Conan</button>
+    <button onclick="goToPage2('rEKifG2XUZg', this)">Tom and Jerry</button>
+    <button onclick="goToPage2('4fs42tPscuo', this)">Oggy</button>  
+    <button onclick="goToPage2('VF3qr2pQ0jk', this)">Shin Cậu Bé Bút Chì</button>
+  </div>
+</div>
+
+<!-- TRANG 2: Video -->
+<div id="page2" style="display: none;">
+  <div class="video-container">
+    <iframe 
+      id="videoPlayer"
+      src=""
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+<div style="text-align: left; margin: 10px 5% 0;">
+  <button onclick="backToPage1()">🔙 Quay lại</button>
+</div>
+
 </div>
 
 <div class="clock" id="fixedClock"></div>
 
 <script>
-// Đổi video
-function playVideo(videoId, btn) {
+// Chuyển sang trang 2 và phát video
+function goToPage2(videoId, btn) {
+  document.getElementById('page1').style.display = 'none';
+  document.getElementById('page2').style.display = 'block';
   const iframe = document.getElementById('videoPlayer');
   iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
+
   document.querySelectorAll('.buttons button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
-document.querySelector('.buttons button').classList.add('active');
+
+// Quay lại trang chọn phim
+function backToPage1() {
+  document.getElementById('page2').style.display = 'none';
+  document.getElementById('page1').style.display = 'block';
+  document.getElementById('videoPlayer').src = ''; // stop video
+}
 
 // Hoa rơi
 function createSnowflake() {
@@ -184,7 +203,7 @@ function createSnowflake() {
 }
 setInterval(createSnowflake, 300);
 
-// Đồng hồ hiện giờ + Theme tự động
+// Đồng hồ & Theme
 function updateClock() {
   const now = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
   const h = now.getHours().toString().padStart(2, '0');
